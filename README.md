@@ -82,21 +82,17 @@ The repository is organised as follows:
 ```
 STM32-EV-ADAS/
 ├── README.md
-├── firmware/                 # C source files and driver configs
-│   ├── Core/
-│   │   ├── Src/              # main.c, adas.c, ev_control.c, fault.c, etc.
-│   │   └── Inc/              # Module headers
-│   └── Drivers/              # STM32 HAL & CMSIS Drivers
-├── dashboard/                # Python HMI and serial parsers
-│   ├── dashboard.py          # Python GUI implementation
-│   └── requirements.txt      # Python package list
-├── docs/                     # Schematics, states, and telemetry layouts
-│   └── design_spec.pdf       # Comprehensive Requirements & Design PDF
-├── images/                   # Screenshots and architecture diagrams
-├── hardware/                 # Simulation templates and pin mapping
-│   └── picsimlab_config.pco  # Simulation environment board configuration
+├── images/
+│   ├── architecture_diagram.png
+│   ├── dashboard_normal.png
+│   ├── picsimlab.png
+│   ├── dashboard_collision.png
+│   └── uart_output.png
+├── docs/
+│   ├── system_architecture.pdf
+│   └── project_overview.md
+├── .gitignore
 └── LICENSE
-```
 
 ## 9. Project Workflow / Data Flow
 
