@@ -78,7 +78,7 @@ The system consists of three main layers: Perception, Control, and Application.
 The repository is organised as follows:
 
 ```
-STM32-EV-ADAS/
+ev_dashboard
 ├── README.md
 ├── images/
 │   ├── architecture_diagram.png
