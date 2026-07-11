@@ -72,7 +72,7 @@ For detailed implementation, refer to the documentation in the `docs/` folder.
 - **Languages:** C / C++ (Embedded Firmware development), Python (Desktop visualization)
 - **Communications:** UART / USART Serial Protocol
 - **DMA Controller:** Direct Memory Access for low-CPU serial transfers
-- **Peripherals:** PWM (Pulse Width Modulation), ADC (Analog to Digital Conversion)
+- **Peripherals:** ADC (Analog to Digital Conversion)
 - **Tools:** PICSimLab (Hardware Simulation environment)
 
 ## 8. Folder Structure
@@ -125,7 +125,6 @@ For detailed implementation, refer to the documentation in the `docs/` folder.
 - **Low Battery Safeguard:** Triggers a critical FAULT_SOC if battery State of Charge falls below 2%, cutting motor power.
 - **Critical Proximity / Collision:** Enforces immediate transition to FAULT_COL and cuts motor PWM if front obstacle distance falls under 20 cm or Time-To-Collision (TTC) is less than 1.5 seconds.
 - **Mute & Graceful Degradation:** Monitors sensor timeouts (FAULT_SEN) and communication losses (FAULT_COM), logging warning entries rather than disabling vehicle movement.
-- **Watchdog Supervisor:** Enforces system reset via Independent Watchdog (IWDG) if the core firmware loop stalls for more than 1 second.
 - **Lock-out Recovery:** Requires a physical/serial reset or the UART command `fault clear` to shift the vehicle out of the FAULT state and back to PARKED.
 
 ## 12. UART Telemetry Overview
@@ -180,16 +179,17 @@ For detailed troubleshooting, refer to the documentation in the `docs/` folder.
 
 ## 15. Expected Output / Screenshots
 
-*(Add these screenshots/diagrams to make your repository stand out to hiring managers and recruiters)*
+The following screenshots demonstrate the key features of the project:
 
-- **System Architecture Block Diagram:** `images/architecture_diagram.png` – A complete flowchart showing the interaction between the STM32 timers, interrupt routines, UART DMA, and Python queues.
-- **Dashboard Normal Operation:** `images/dashboard_normal.png` – Demonstrates stable driving conditions with a green circular speedometer and blank side blind spots.
-- **Active Blind Spot Warning:** `images/dashboard_bsd.png` – Highlights the left or right side in amber on the Bird-Eye canvas when distance falls below 30 cm.
-- **Critical Forward Collision:** `images/dashboard_collision.png` – Shows the rapid transition to a flashing red ADAS view as a front object enters the critical collision zone.
-- **Motor Over-Temperature Fault:** `images/dashboard_fault.png` – Displays the red "FAULT" banner locked on-screen with motor torque dropped instantly to 0.
-- **UART Shell Commands Console:** `images/uart_shell_demo.png` – A capture of a terminal injecting a fault inject command and demonstrating safety-system compliance.
-- **Finite State Machine Layout:** `images/state_machine.png` – Transition logic diagrams tracking PARKED to READY to DRIVING with error condition loops.
-- **Ultrasonic Sensor Layout Timing Diagram:** `images/sensor_timing.png` – Illustrates the sequential 100 ms trigger-echo loops that eliminate acoustic crosstalk between HC-SR04 sensors.
+- **System Architecture:** `images/architecture_diagram.png` – High-level block diagram showing the interaction between the STM32 controller, sensors, UART communication, and the Python dashboard.
+
+- **Python Dashboard:** `images/dashboard_normal.png` – Real-time dashboard displaying vehicle speed, battery State of Charge (SOC), range, motor temperature, and ADAS indicators.
+
+- **PICSimLab Simulation:** `images/picsimlab.png` – STM32 Blue Pill simulation environment with connected peripherals used for testing the embedded firmware.
+
+- **ADAS Warning Demonstration:** `images/dashboard_collision.png` – Dashboard showing an active Forward Collision Warning (FCW) when the vehicle approaches an obstacle within the critical threshold.
+
+- **UART Telemetry Output:** `images/uart_shell_demo.png` – Serial terminal displaying real-time EV and ADAS telemetry transmitted from the STM32 over UART.
 
 ## 16. Skills Demonstrated
 
