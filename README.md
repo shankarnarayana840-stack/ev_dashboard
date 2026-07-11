@@ -6,8 +6,6 @@ Real-Time Electric Vehicle Dashboard & ADAS Warning System
 
 An advanced, real-time electric vehicle (EV) telemetry and Advanced Driver Assistance System (ADAS) simulated on an STM32 Blue Pill and visualised on a custom Python instrument cluster.
 
---Image of: --C/C++ --Image of: --Python --Image of: --STM32 --Image of: --License: MIT
-
 ## 1. Project Title
 
 S# Real time Electric Vehicle ADAS & Dashboard System
@@ -49,7 +47,7 @@ The system consists of three main layers: Perception, Control, and Application.
 +-------------------+                                  +-------------------+
 ```
 
-For detailed implementation, refer to the documentation in the `docs/` folder.
+
 
 ## 5. Hardware Components
 
@@ -73,7 +71,7 @@ For detailed implementation, refer to the documentation in the `docs/` folder.
 - **Communications:** UART / USART Serial Protocol
 - **DMA Controller:** Direct Memory Access for low-CPU serial transfers
 - **Peripherals:** ADC (Analog to Digital Conversion)
-- **Tools:** PICSimLab (Hardware Simulation environment)
+- **Tools:** PICSimLab (Hardware Simulation environment),vspe tool (for virtual com pairs)
 
 ## 8. Folder Structure
 
@@ -108,15 +106,12 @@ The system processes data sequentially to ensure safety-critical reactions occur
 - **ADAS Obstacle Detection:** Tracks front proximity and side clearances. Left and right Blind Spot Detection (BSD) is active above 20 km/h.
 - **UART Command Shell:** Offers an interactive command interface for diagnostics, testing, parameter injection (such as overriding SOC or speed), and drive-mode toggling.
 
-For detailed implementation, refer to the documentation in the `docs/` folder.
-
 ## 11. Safety Features
 
 - **Motor Over-Temperature:** Triggers a critical FAULT_OT if the motor temp exceeds 90 °C, turning off PWM output.
 - **Low Battery Safeguard:** Triggers a critical FAULT_SOC if battery State of Charge falls below 2%, cutting motor power.
 - **Critical Proximity / Collision:** Enforces immediate transition to FAULT_COL and cuts motor PWM if front obstacle distance falls under 20 cm or Time-To-Collision (TTC) is less than 1.5 seconds.
 - **Mute & Graceful Degradation:** Monitors sensor timeouts (FAULT_SEN) and communication losses (FAULT_COM), logging warning entries rather than disabling vehicle movement.
-- **Lock-out Recovery:** Requires a physical/serial reset or the UART command `fault clear` to shift the vehicle out of the FAULT state and back to PARKED.
 
 ## 12. UART Telemetry Overview
 
