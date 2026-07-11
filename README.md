@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Real time Electric Vehicle ADAS & Dashboard System
+=======
+Real-Time Electric Vehicle Dashboard & ADAS Warning System
+>>>>>>> 2820608f1e6b08f764830614e61db847f5cf6e02
 
 An advanced, real-time electric vehicle (EV) telemetry and Advanced Driver Assistance System (ADAS) simulated on an STM32 Blue Pill and visualised on a custom Python instrument cluster.
 
