@@ -8,7 +8,7 @@ An advanced, real-time electric vehicle (EV) telemetry and Advanced Driver Assis
 
 ## 1. Project Title
 
-S# Real time Electric Vehicle ADAS & Dashboard System
+ Real time Electric Vehicle ADAS & Dashboard System
 
 ## 2. Project Overview
 
