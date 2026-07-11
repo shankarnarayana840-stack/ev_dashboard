@@ -88,11 +88,6 @@ STM32-EV-ADAS/
 │   ├── picsimlab.png
 │   ├── dashboard_collision.png
 │   └── uart_output.png
-├── docs/
-│   ├── system_architecture.pdf
-│   └── project_overview.md
-├── .gitignore
-└── LICENSE
 
 ## 9. Project Workflow / Data Flow
 
