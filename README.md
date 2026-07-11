@@ -1,4 +1,4 @@
-STM32 Electric Vehicle ADAS & Dashboard System
+Real-Time Electric Vehicle Dashboard & ADAS Warning System
 
 An advanced, real-time electric vehicle (EV) telemetry and Advanced Driver Assistance System (ADAS) simulated on an STM32 Blue Pill and visualised on a custom Python instrument cluster.
 
