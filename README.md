@@ -1,74 +1,81 @@
-STM32 Electric Vehicle ADAS & Dashboard System
+# Real time Electric Vehicle ADAS & Dashboard System
 
 An advanced, real-time electric vehicle (EV) telemetry and Advanced Driver Assistance System (ADAS) simulated on an STM32 Blue Pill and visualised on a custom Python instrument cluster.
 
 --Image of: --C/C++ --Image of: --Python --Image of: --STM32 --Image of: --License: MIT
-1. Project Title
 
-STM32 Electric Vehicle ADAS & Dashboard System
-2. Project Overview
+## 1. Project Title
 
-Modern electric vehicles generate vast amounts of real-time sensor data, including speed, battery State of Charge (SOC), motor temperature, torque, and range [1]. This project addresses the challenge of monitoring vehicle metrics and Advanced Driver Assistance Systems (ADAS) alerts simultaneously [1]. It features an STM32F103C8T6 Blue Pill microcontroller executing a deterministic state machine to process sensor inputs, perform safety calculations, and manage faults [2, 20]. The processed vehicle and ADAS data are streamed over a high-speed UART connection to a real-time Python dashboard built with Matplotlib, creating a unified automotive instrumentation and safety alert system [2, 15, 20]. This setup replicates a production ECU/VCU pipeline using a cost-effective desktop simulation stack [3].
-3. Key Features
+S# Real time Electric Vehicle ADAS & Dashboard System
 
-    Real-Time EV Dynamics Simulation: Models speed, torque, SOC, and range using a physics-based vehicle dynamics model [2, 7, 21].
-    Advanced Driver Assistance Systems (ADAS): Implements Forward Collision Warning (FCW), Blind Spot Detection (BSD), Time-To-Collision (TTC) calculations, and Parking Assist (PA) [2, 8, 9, 21].
-    Deterministic State Machine: Manages transitions between PARKED, READY, DRIVING, REGEN, and FAULT states [21, 33].
-    High-Performance Telemetry: Streams dual structured telemetry packets over UART via DMA at 10 Hz [11, 21, 32].
-    Interactive UART Command Shell: Allows live parameter injection (speed, SOC, faults) and mode switching directly from a terminal [12, 13].
-    Tiered Alarm & Fault Safeguards: Features a 4-level alarm hierarchy (Advisory to Critical) and immediate motor PWM cut-off on critical faults [2, 10, 11, 28].
-    Polished Python Instrument Cluster: Renders a high-fidelity instrument panel containing a speedometer gauge, SOC bar, speed history plot, and an ADAS bird-eye view [14, 15, 46, 47].
+## 2. Project Overview
 
-4. System Architecture
+Modern electric vehicles generate vast amounts of real-time sensor data, including speed, battery State of Charge (SOC), motor temperature, torque, and range. This project addresses the challenge of monitoring vehicle metrics and Advanced Driver Assistance Systems (ADAS) alerts simultaneously. It features an STM32F103C8T6 Blue Pill microcontroller executing a deterministic state machine to process sensor inputs, perform safety calculations, and manage faults. The processed vehicle and ADAS data are streamed over a high-speed UART connection to a real-time Python dashboard built with Matplotlib, creating a unified automotive instrumentation and safety alert system. This setup replicates a production ECU/VCU pipeline using a cost-effective desktop simulation stack.
 
-The system consists of three main layers: Perception, Control, and Application [31].
+## 3. Key Features
 
-    Perception Layer: Gathers driver commands (accelerator/brake) and physical variables via ADC channels, alongside distance readings from front, left, and right ultrasonic sensors [6, 31].
-    Control Layer (STM32): Houses the core EV Control ADAS Engine, vehicle state machine, and fault handler, driving alarms and PWM outputs [2, 31].
-    Application Layer (Python GUI): Parses serial frames and renders real-time dials, charts, and spatial warning graphics [11, 15, 31].
+- **Real-Time EV Dynamics Simulation:** Models speed, torque, SOC, and range using a physics-based vehicle dynamics model.
+- **Advanced Driver Assistance Systems (ADAS):** Implements Forward Collision Warning (FCW), Blind Spot Detection (BSD), Time-To-Collision (TTC) calculations, and Parking Assist (PA).
+- **Deterministic State Machine:** Manages transitions between PARKED, READY, DRIVING, REGEN, and FAULT states.
+- **High-Performance Telemetry:** Streams dual structured telemetry packets over UART via DMA at 10 Hz.
+- **Interactive UART Command Shell:** Allows live parameter injection (speed, SOC, faults) and mode switching directly from a terminal.
+- **Tiered Alarm & Fault Safeguards:** Features a 4-level alarm hierarchy (Advisory to Critical) and immediate motor PWM cut-off on critical faults.
+- **Polished Python Instrument Cluster:** Renders a high-fidelity instrument panel containing a speedometer gauge, SOC bar, speed history plot, and an ADAS bird-eye view.
 
-High-Level Architecture Block Diagram
+## 4. System Architecture
 
+The system consists of three main layers: Perception, Control, and Application.
+
+- **Perception Layer:** Gathers driver commands (accelerator/brake) and physical variables via ADC channels, alongside distance readings from front, left, and right ultrasonic sensors.
+- **Control Layer (STM32):** Houses the core EV Control ADAS Engine, vehicle state machine, and fault handler, driving alarms and PWM outputs.
+- **Application Layer (Python GUI):** Parses serial frames and renders real-time dials, charts, and spatial warning graphics.
+
+### High-Level Architecture Block Diagram
+
+```
 +-------------------+      +-------------------+      +--------------------+
 |  SENSORS (ADC)    | ---> |   STM32F103C8T6   | ---> |  USART1 Telemetry  |
 |  Potentiometers & |      |   EV Control &    |      |  115200 bps (DMA)  |
 |  3x HC-SR04 Echo  | <--- |   ADAS Engine     |      +---------+----------+
 +-------------------+      +-------------------+                |
-                                                                v
+                                                                  v
 +-------------------+                                  +--------+----------+
 | Buzzer Tone (PWM) | <--------------------------------+  Python Dashboard |
 | LED Indicators    |                                  |  Matplotlib GUI   |
 +-------------------+                                  +-------------------+
+```
 
-For detailed implementation, refer to the documentation in the docs/ folder. [40]
-5. Hardware Components
+For detailed implementation, refer to the documentation in the `docs/` folder.
 
-    STM32F103C8T6 Blue Pill: 32-bit ARM Cortex-M3 microcontroller operating at 72 MHz, acting as the Vehicle Control Unit (VCU) [3, 37].
-    HC-SR04 Ultrasonic Sensors (3x): Simulates front, left, and right obstacle tracking (2–400 cm range, ±3 mm accuracy) [19, 37].
-    Passive PWM Buzzer: Driven by Timer 4 PWM (PB9) for multi-tone alert and alarm escalation [6, 37].
-    Analog Potentiometers (4x): Simulate accelerator pedal, brake pedal, battery SOC, and motor temperature inputs [7, 38].
-    Status LEDs (4x): Visual indicators for collision warnings, left/right blind spots, and system faults [35, 37, 38].
-    ST-Link V2: SWD programmer and debugger [37, 39].
+## 5. Hardware Components
 
-6. Software Stack
+- **STM32F103C8T6 Blue Pill:** 32-bit ARM Cortex-M3 microcontroller operating at 72 MHz, acting as the Vehicle Control Unit (VCU).
+- **HC-SR04 Ultrasonic Sensors (3x):** Simulates front, left, and right obstacle tracking (2–400 cm range, ±3 mm accuracy).
+- **Passive PWM Buzzer:** Driven by Timer 4 PWM (PB9) for multi-tone alert and alarm escalation.
+- **Analog Potentiometers (4x):** Simulate accelerator pedal, brake pedal, battery SOC, and motor temperature inputs.
+- **Status LEDs (4x):** Visual indicators for collision warnings, left/right blind spots, and system faults.
+- **ST-Link V2:** SWD programmer and debugger.
 
-    STM32 Firmware: Built using STM32CubeIDE, utilising the STM32 Hardware Abstraction Layer (HAL) [6, 19, 20].
-    Peripheral Drivers: Built-in drivers for 12-bit ADC (PA0-PA2) [6, 30], Timer Interrupts (TIM1, TIM3) [6], Input Capture (TIM2) [6], PWM (TIM4) [6], and USART1 with DMA [6, 31].
-    Python Dashboard Application: A real-time visualisation app executing at 10 fps (100 ms intervals) [14].
-    Dashboard Libraries: Matplotlib (gauges and rolling charts) [6, 14], NumPy (data handling) [6], and PySerial (robust serial connection) [6].
+## 6. Software Stack
 
-7. Technologies Used
+- **STM32 Firmware:** Built using STM32CubeIDE, utilising the STM32 Hardware Abstraction Layer (HAL).
+- **Peripheral Drivers:** Built-in drivers for 12-bit ADC (PA0-PA2), Timer Interrupts (TIM1, TIM3), Input Capture (TIM2), PWM (TIM4), and USART1 with DMA.
+- **Python Dashboard Application:** A real-time visualisation app executing at 10 fps (100 ms intervals).
+- **Dashboard Libraries:** Matplotlib (gauges and rolling charts), NumPy (data handling), and PySerial (robust serial connection).
 
-    Languages: C / C++ (Embedded Firmware development), Python (Desktop visualization) [6, 14, 15, 34, 40]
-    Communications: UART / USART Serial Protocol [2, 11, 20]
-    DMA Controller: Direct Memory Access for low-CPU serial transfers [31, 32]
-    Peripherals: PWM (Pulse Width Modulation), ADC (Analog to Digital Conversion) [2, 3, 6, 10, 22, 30]
-    Tools: PICSimLab (Hardware Simulation environment) [19, 22]
+## 7. Technologies Used
 
-8. Folder Structure
+- **Languages:** C / C++ (Embedded Firmware development), Python (Desktop visualization)
+- **Communications:** UART / USART Serial Protocol
+- **DMA Controller:** Direct Memory Access for low-CPU serial transfers
+- **Peripherals:** PWM (Pulse Width Modulation), ADC (Analog to Digital Conversion)
+- **Tools:** PICSimLab (Hardware Simulation environment)
+
+## 8. Folder Structure
 
 The repository is organised as follows:
 
+```
 STM32-EV-ADAS/
 ├── README.md
 ├── firmware/                 # C source files and driver configs
@@ -85,102 +92,112 @@ STM32-EV-ADAS/
 ├── hardware/                 # Simulation templates and pin mapping
 │   └── picsimlab_config.pco  # Simulation environment board configuration
 └── LICENSE
+```
 
-9. Project Workflow / Data Flow
+## 9. Project Workflow / Data Flow
 
-The system processes data sequentially to ensure safety-critical reactions occur within one loop cycle (≤ 10 ms) [32, 53]:
+The system processes data sequentially to ensure safety-critical reactions occur within one loop cycle (≤ 10 ms):
 
-    Sensor Acquisition: The STM32 reads analog inputs (pedals, temp) at 100 Hz using 12-bit ADC via TIM1 [26, 32], and triggers HC-SR04 ultrasonic sensors sequentially [15, 27].
-    Vehicle Dynamics Processing: The EV Control module computes torque, speed (clamped 0-200 km/h), power, SOC, and remaining range every 10 ms [6, 7, 21].
-    ADAS Proximity Evaluation: Side blind spots are monitored, and front obstacles are analysed to compute Time-To-Collision (TTC = distance / speed) [9, 32].
-    Alarm & Safeguard Logic: Based on alarm priorities (P0 to P3) [21, 52], the system drives physical LEDs and the buzzer PWM, shifting states to FAULT and cutting motor PWM if thresholds are breached [10, 28, 52].
-    Telemetry Streaming: Telemetry is serialised into formatted frames and dispatched via USART1 DMA at 10 Hz [21, 32].
-    GUI Rendering: Python reads, parses, and updates the local state dictionary, refreshing the user-facing Matplotlib dashboard at 10 Hz [15, 16, 32].
+1. **Sensor Acquisition:** The STM32 reads analog inputs (pedals, temp) at 100 Hz using 12-bit ADC via TIM1, and triggers HC-SR04 ultrasonic sensors sequentially.
+2. **Vehicle Dynamics Processing:** The EV Control module computes torque, speed (clamped 0-200 km/h), power, SOC, and remaining range every 10 ms.
+3. **ADAS Proximity Evaluation:** Side blind spots are monitored, and front obstacles are analysed to compute Time-To-Collision (TTC = distance / speed).
+4. **Alarm & Safeguard Logic:** Based on alarm priorities (P0 to P3), the system drives physical LEDs and the buzzer PWM, shifting states to FAULT and cutting motor PWM if thresholds are breached.
+5. **Telemetry Streaming:** Telemetry is serialised into formatted frames and dispatched via USART1 DMA at 10 Hz.
+6. **GUI Rendering:** Python reads, parses, and updates the local state dictionary, refreshing the user-facing Matplotlib dashboard at 10 Hz.
 
-10. Core Functionalities
+## 10. Core Functionalities
 
-    EV Dynamics Engine: Simulates a physics-based inertia model [26]. Integrates motor torque and vehicle mass to update speed [7], while State of Charge (SOC) is tracked across a simulated 20 kWh battery [7, 41].
-    Regenerative Braking: Engages negative motor torque (up to -80 Nm) when the brake pedal is pressed past 5% while in motion, replenishing battery SOC [7, 8].
-    Shiftable Drive Profiles: Supports ECO (scaled torque at 0.6x, 25 Wh/km), NORMAL (1.0x torque), and SPORT (increased torque at 1.3x, 35 Wh/km) drive modes [7, 8].
-    ADAS Obstacle Detection: Tracks front proximity and side clearances [8, 9]. Left and right Blind Spot Detection (BSD) is active above 20 km/h [8].
-    UART Command Shell: Offers an interactive command interface for diagnostics, testing, parameter injection (such as overriding SOC or speed), and drive-mode toggling [12, 13, 21].
+- **EV Dynamics Engine:** Simulates a physics-based inertia model. Integrates motor torque and vehicle mass to update speed, while State of Charge (SOC) is tracked across a simulated 20 kWh battery.
+- **Regenerative Braking:** Engages negative motor torque (up to -80 Nm) when the brake pedal is pressed past 5% while in motion, replenishing battery SOC.
+- **Shiftable Drive Profiles:** Supports ECO (scaled torque at 0.6x, 25 Wh/km), NORMAL (1.0x torque), and SPORT (increased torque at 1.3x, 35 Wh/km) drive modes.
+- **ADAS Obstacle Detection:** Tracks front proximity and side clearances. Left and right Blind Spot Detection (BSD) is active above 20 km/h.
+- **UART Command Shell:** Offers an interactive command interface for diagnostics, testing, parameter injection (such as overriding SOC or speed), and drive-mode toggling.
 
-For detailed implementation, refer to the documentation in the docs/ folder. [34, 40]
-11. Safety Features
+For detailed implementation, refer to the documentation in the `docs/` folder.
 
-    Motor Over-Temperature: Triggers a critical FAULT_OT if the motor temp exceeds 90 °C, turning off PWM output [10, 44].
-    Low Battery Safeguard: Triggers a critical FAULT_SOC if battery State of Charge falls below 2%, cutting motor power [10, 45].
-    Critical Proximity / Collision: Enforces immediate transition to FAULT_COL and cuts motor PWM if front obstacle distance falls under 20 cm or Time-To-Collision (TTC) is less than 1.5 seconds [10, 28].
-    Mute & Graceful Degradation: Monitors sensor timeouts (FAULT_SEN) and communication losses (FAULT_COM), logging warning entries rather than disabling vehicle movement [10, 45].
-    Watchdog Supervisor: Enforces system reset via Independent Watchdog (IWDG) if the core firmware loop stalls for more than 1 second [45, 54].
-    Lock-out Recovery: Requires a physical/serial reset or the UART command fault clear to shift the vehicle out of the FAULT state and back to PARKED [5, 13, 26].
+## 11. Safety Features
 
-12. UART Telemetry Overview
+- **Motor Over-Temperature:** Triggers a critical FAULT_OT if the motor temp exceeds 90 °C, turning off PWM output.
+- **Low Battery Safeguard:** Triggers a critical FAULT_SOC if battery State of Charge falls below 2%, cutting motor power.
+- **Critical Proximity / Collision:** Enforces immediate transition to FAULT_COL and cuts motor PWM if front obstacle distance falls under 20 cm or Time-To-Collision (TTC) is less than 1.5 seconds.
+- **Mute & Graceful Degradation:** Monitors sensor timeouts (FAULT_SEN) and communication losses (FAULT_COM), logging warning entries rather than disabling vehicle movement.
+- **Watchdog Supervisor:** Enforces system reset via Independent Watchdog (IWDG) if the core firmware loop stalls for more than 1 second.
+- **Lock-out Recovery:** Requires a physical/serial reset or the UART command `fault clear` to shift the vehicle out of the FAULT state and back to PARKED.
+
+## 12. UART Telemetry Overview
 
 The microcontroller transmits two structured ASCII lines every 100 ms at 115200 bps:
 
-    Line 1 (EV Telemetry): Streams SPD (Speed), SOC (State of Charge), TRQ (Torque), TMP (Temperature), RNG (Range), ACC (Accelerator), and BRK (Brake) [11, 12].
-    Line 2 (ADAS Proximity): Streams side clearances (L, R), front clearance (F), computed TTC, collision indicators (COL), blindspot state bits (BSD), alarm levels (ALM), and fault registers (FLT) [11, 12].
+- **Line 1 (EV Telemetry):** Streams SPD (Speed), SOC (State of Charge), TRQ (Torque), TMP (Temperature), RNG (Range), ACC (Accelerator), and BRK (Brake).
+- **Line 2 (ADAS Proximity):** Streams side clearances (L, R), front clearance (F), computed TTC, collision indicators (COL), blindspot state bits (BSD), alarm levels (ALM), and fault registers (FLT).
 
-For detailed packet layouts, refer to the documentation in the docs/ folder. [49]
-13. Python Dashboard Overview
+For detailed packet layouts, refer to the documentation in the `docs/` folder.
+
+## 13. Python Dashboard Overview
 
 A professional dark-themed Matplotlib HMI that processes incoming telemetric frames at 10 fps:
 
-    Circular Speedometer: Arc dial changing colour dynamically (green to orange to red) up to 200 km/h [14].
-    Battery & Range Panel: Displays battery SOC with an integrated estimated range and drive mode badges [14].
-    ADAS Bird-Eye View: Renders ego vehicle layout, highlights left/right blind spots in amber on side threat, and draws front obstacle collision levels [8, 15, 25].
-    Rolling Speed Graph: Plotting speed trends over a 60-sample window [14].
-    EV Metrics Table: Text readout of auxiliary measurements including brake, throttle, alarm thresholds, and UART connection stability [15].
+- **Circular Speedometer:** Arc dial changing colour dynamically (green to orange to red) up to 200 km/h.
+- **Battery & Range Panel:** Displays battery SOC with an integrated estimated range and drive mode badges.
+- **ADAS Bird-Eye View:** Renders ego vehicle layout, highlights left/right blind spots in amber on side threat, and draws front obstacle collision levels.
+- **Rolling Speed Graph:** Plotting speed trends over a 60-sample window.
+- **EV Metrics Table:** Text readout of auxiliary measurements including brake, throttle, alarm thresholds, and UART connection stability.
 
-14. Quick Start Guide
-Firmware Setup
+## 14. Quick Start Guide
 
-    Import the firmware/ directory into STM32CubeIDE [5, 19].
-    Compile and flash the binary onto your STM32 Blue Pill using an ST-Link V2 [19, 37].
-    (Optional Simulation) Import configuration into PICSimLab and load the generated .hex file [19].
+### Firmware Setup
 
-Dashboard Execution
+1. Import the `firmware/` directory into STM32CubeIDE.
+2. Compile and flash the binary onto your STM32 Blue Pill using an ST-Link V2.
+3. (Optional Simulation) Import configuration into PICSimLab and load the generated `.hex` file.
 
-    Ensure Python 3.x is installed [6].
-    Navigate to the dashboard directory and install requirements:
+### Dashboard Execution
 
-    pip install -r requirements.txt
+1. Ensure Python 3.x is installed.
+2. Navigate to the dashboard directory and install requirements:
 
-    Run with physical/simulated hardware (e.g., on COM3):
+   ```
+   pip install -r requirements.txt
+   ```
 
-    python dashboard.py --port COM3
+3. Run with physical/simulated hardware (e.g., on COM3):
 
-    Run in offline presentation/demo mode:
+   ```
+   python dashboard.py --port COM3
+   ```
 
-    python dashboard.py --demo
+4. Run in offline presentation/demo mode:
 
-For detailed troubleshooting, refer to the documentation in the docs/ folder.
-15. Expected Output / Screenshots
+   ```
+   python dashboard.py --demo
+   ```
 
-(Add these screenshots/diagrams to make your repository stand out to hiring managers and recruiters)
+For detailed troubleshooting, refer to the documentation in the `docs/` folder.
 
-    System Architecture Block Diagram: [images/architecture_diagram.png] – A complete flowchart showing the interaction between the STM32 timers, interrupt routines, UART DMA, and Python queues [2, 32].
-    Dashboard Normal Operation: [images/dashboard_normal.png] – Demonstrates stable driving conditions with a green circular speedometer and blank side blind spots [14, 15, 48].
-    Active Blind Spot Warning: [images/dashboard_bsd.png] – Highlights the left or right side in amber on the Bird-Eye canvas when distance falls below 30 cm [8, 15, 48].
-    Critical Forward Collision: [images/dashboard_collision.png] – Shows the rapid transition to a flashing red ADAS view as a front object enters the critical collision zone [10, 15, 48].
-    Motor Over-Temperature Fault: [images/dashboard_fault.png] – Displays the red "FAULT" banner locked on-screen with motor torque dropped instantly to 0 [10, 15, 48].
-    UART Shell Commands Console: [images/uart_shell_demo.png] – A capture of a terminal injecting a fault inject command and demonstrating safety-system compliance [12, 13].
-    Finite State Machine Layout: [images/state_machine.png] – Transition logic diagrams tracking PARKED to READY to DRIVING with error condition loops [21, 33].
-    Ultrasonic Sensor Layout Timing Diagram: [images/sensor_timing.png] – Illustrates the sequential 100 ms trigger-echo loops that eliminate acoustic crosstalk between HC-SR04 sensors [6, 27].
+## 15. Expected Output / Screenshots
 
-16. Skills Demonstrated
+*(Add these screenshots/diagrams to make your repository stand out to hiring managers and recruiters)*
 
-    Bare-Metal Firmware: C development, STM32 HAL, NVIC priority grouping, and hardware register configurations [6, 19, 34, 40].
-    Hardware Timers: Configuring high-resolution timers for input capture, multi-channel ADC triggering, and PWM generation [6, 15].
-    Low-Overhead Telemetry: Designing packet frames with serial-ring buffers, error-checking, and DMA transfers [31, 32].
-    Safety-Critical Engineering: Building safety-critical automotive control loops with deterministic state logic and watchdogs [20, 21, 45].
-    Python GUI Programming: Matplotlib animation frameworks, asynchronous data queues, and PySerial data management [6, 14, 15].
+- **System Architecture Block Diagram:** `images/architecture_diagram.png` – A complete flowchart showing the interaction between the STM32 timers, interrupt routines, UART DMA, and Python queues.
+- **Dashboard Normal Operation:** `images/dashboard_normal.png` – Demonstrates stable driving conditions with a green circular speedometer and blank side blind spots.
+- **Active Blind Spot Warning:** `images/dashboard_bsd.png` – Highlights the left or right side in amber on the Bird-Eye canvas when distance falls below 30 cm.
+- **Critical Forward Collision:** `images/dashboard_collision.png` – Shows the rapid transition to a flashing red ADAS view as a front object enters the critical collision zone.
+- **Motor Over-Temperature Fault:** `images/dashboard_fault.png` – Displays the red "FAULT" banner locked on-screen with motor torque dropped instantly to 0.
+- **UART Shell Commands Console:** `images/uart_shell_demo.png` – A capture of a terminal injecting a fault inject command and demonstrating safety-system compliance.
+- **Finite State Machine Layout:** `images/state_machine.png` – Transition logic diagrams tracking PARKED to READY to DRIVING with error condition loops.
+- **Ultrasonic Sensor Layout Timing Diagram:** `images/sensor_timing.png` – Illustrates the sequential 100 ms trigger-echo loops that eliminate acoustic crosstalk between HC-SR04 sensors.
 
-17. Future Improvements
+## 16. Skills Demonstrated
 
-    Upgrade serial physical layer from UART to robust, automotive-standard CAN Bus protocol [3].
-    Move the Python dashboard to a standalone UI library (such as PyQt/PySide) for smoother render performance.
-    Transition STM32 software scheduling to a real-time OS (FreeRTOS) for enhanced task isolation.
-    Integrate active steering-assist simulation onto the Bird-Eye diagram.
+- **Bare-Metal Firmware:** C development, STM32 HAL, NVIC priority grouping, and hardware register configurations.
+- **Hardware Timers:** Configuring high-resolution timers for input capture, multi-channel ADC triggering, and PWM generation.
+- **Low-Overhead Telemetry:** Designing packet frames with serial-ring buffers, error-checking, and DMA transfers.
+- **Safety-Critical Engineering:** Building safety-critical automotive control loops with deterministic state logic and watchdogs.
+- **Python GUI Programming:** Matplotlib animation frameworks, asynchronous data queues, and PySerial data management.
 
+## 17. Future Improvements
+
+- Upgrade serial physical layer from UART to robust, automotive-standard CAN Bus protocol.
+- Move the Python dashboard to a standalone UI library (such as PyQt/PySide) for smoother render performance.
+- Transition STM32 software scheduling to a real-time OS (FreeRTOS) for enhanced task isolation.
+- Integrate active steering-assist simulation onto the Bird-Eye diagram.
