@@ -1,6 +1,6 @@
 
 # Real time Electric Vehicle ADAS & Dashboard System
-=======
+
 Real-Time Electric Vehicle Dashboard & ADAS Warning System
 
 
