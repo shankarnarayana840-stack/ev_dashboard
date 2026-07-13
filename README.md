@@ -14,6 +14,16 @@ An advanced, real-time electric vehicle (EV) telemetry and Advanced Driver Assis
 
 Modern electric vehicles generate vast amounts of real-time sensor data, including speed, battery State of Charge (SOC), motor temperature, torque, and range. This project addresses the challenge of monitoring vehicle metrics and Advanced Driver Assistance Systems (ADAS) alerts simultaneously. It features an STM32F103C8T6 Blue Pill microcontroller executing a deterministic state machine to process sensor inputs, perform safety calculations, and manage faults. The processed vehicle and ADAS data are streamed over a high-speed UART connection to a real-time Python dashboard built with Matplotlib, creating a unified automotive instrumentation and safety alert system. This setup replicates a production ECU/VCU pipeline using a cost-effective desktop simulation stack.
 
+## Project Demonstration
+
+Watch the complete demonstration of the STM32-based EV Dashboard, including:
+- Dashboard walkthrough
+- Live sensor data
+- ADAS features
+- Python GUI
+- Hardware demonstration
+#watch the complete video in youtube
+https://youtu.be/pY-FG_otL9c
 ## 3. Key Features
 
 - **Real-Time EV Dynamics Simulation:** Models speed, torque, SOC, and range using a physics-based vehicle dynamics model.
