@@ -82,7 +82,7 @@ ev_dashboard
 ├── README.md
 ├── images/
 │   ├── architecture_diagram.png
-│   ├── dashboard_normal.png
+│   ├── dashboard.png
 │   ├── picsimlab.png
 │   ├── dashboard_collision.png
 │   └── uart_output.png
